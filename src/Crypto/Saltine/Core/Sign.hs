@@ -48,12 +48,13 @@ import           Data.ByteString                     (ByteString)
 import           Data.Data (Data, Typeable)
 import           Data.Hashable (Hashable)
 import           GHC.Generics (Generic)
+import           Control.DeepSeq (NFData)
 
 
 -- $types
 
 -- | An opaque 'box' cryptographic secret key.
-newtype SecretKey = SK ByteString deriving (Eq, Ord, Hashable, Data, Typeable, Generic)
+newtype SecretKey = SK ByteString deriving (Eq, Ord, Hashable, Data, Typeable, Generic, NFData)
 
 instance IsEncoding SecretKey where
   decode v = if S.length v == Bytes.signSK
@@ -64,7 +65,7 @@ instance IsEncoding SecretKey where
   {-# INLINE encode #-}
 
 -- | An opaque 'box' cryptographic public key.
-newtype PublicKey = PK ByteString deriving (Eq, Ord, Data, Typeable, Hashable, Generic)
+newtype PublicKey = PK ByteString deriving (Eq, Ord, Data, Typeable, Hashable, Generic, NFData)
 
 instance IsEncoding PublicKey where
   decode v = if S.length v == Bytes.signPK
